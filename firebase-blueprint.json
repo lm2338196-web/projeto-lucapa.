@@ -1,0 +1,74 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Information about a platform investor",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The firebase auth uid" },
+        "fullName": { "type": "string", "description": "Full name or nickname of the user" },
+        "email": { "type": "string", "description": "Email address" },
+        "phone": { "type": "string", "description": "Phone number including operator prefix" },
+        "phoneCode": { "type": "string", "description": "Operator country prefix chosen" },
+        "inviteId": { "type": "string", "description": "The code of user who invited them" },
+        "promoCode": { "type": "string", "description": "Their own promo invite code" },
+        "balance": { "type": "number", "description": "Current balance in Kwanza (kz)" },
+        "claimedWelcomeBonus": { "type": "boolean", "description": "Whether user claimed the welcome bonus of 503.11 kz" },
+        "transactionPin": { "type": "string", "description": "4-digit hashed or plain transaction pin for verification" },
+        "bankName": { "type": "string", "description": "Bank name of the withdrawal origin" },
+        "bankAccount": { "type": "string", "description": "Bank account number or IBAN of the user" },
+        "bankHolder": { "type": "string", "description": "Full name of the bank account owner" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Join timestamp" }
+      },
+      "required": ["uid", "fullName", "email", "phone", "balance"]
+    },
+    "Investment": {
+      "title": "Investment",
+      "description": "User acquired mining plan",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique purchase record ID" },
+        "planId": { "type": "string", "description": "ID of the designated plan" },
+        "planName": { "type": "string", "description": "Name of the package" },
+        "price": { "type": "number", "description": "Price in Kwanza at time of purchase" },
+        "dailyYield": { "type": "number", "description": "Expected daily payout amount in Kwanza" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "lastCollectedAt": { "type": "string", "format": "date-time", "description": "Last moment daily earnings were collected" },
+        "totalCollected": { "type": "number", "description": "Sum of all earnings collected so far" },
+        "durationDays": { "type": "number", "description": "Lifespan of active operations" }
+      },
+      "required": ["planId", "planName", "price", "dailyYield", "createdAt", "lastCollectedAt", "totalCollected"]
+    },
+    "Transaction": {
+      "title": "Transaction Log",
+      "description": "Deposits, withdrawals, bonuses, plan purchases",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique transaction ID" },
+        "type": { "type": "string", "enum": ["deposit", "withdrawal", "bonus", "purchase", "yield"], "description": "Type of event" },
+        "amount": { "type": "number", "description": "Gross value involved" },
+        "netAmount": { "type": "number", "description": "Net value after rules or fees" },
+        "status": { "type": "string", "enum": ["pending", "completed", "rejected"] },
+        "proofUrl": { "type": "string", "description": "URL or indicator of the upload receipt" },
+        "country": { "type": "string", "description": "Country declared on deposit" },
+        "description": { "type": "string", "description": "Meta description" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["type", "amount", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Primary user configuration"
+    },
+    "/users/{userId}/investments/{investmentId}": {
+      "schema": "Investment",
+      "description": "Purchased mining plans by the user (subcollection)"
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Transaction logs of the user (subcollection)"
+    }
+  }
+}

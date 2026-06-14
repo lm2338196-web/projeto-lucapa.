@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* Esconder Barra superior do Google Translate para manter o layout intocado e polido */
+.skiptranslate,
+iframe.skiptranslate,
+#goog-gt-tt,
+.goog-te-banner-frame,
+.goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  background-color: #f0f4f8;
+  color: #1a202c;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.platform-bg {
+  background-image: url('https://i.postimg.cc/mr3mL17B/Screenshot-20260612-191500-Gallery.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.custom-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+}
+
+.pin-input {
+  width: 45px;
+  height: 45px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 24px;
+  background: #fff;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
